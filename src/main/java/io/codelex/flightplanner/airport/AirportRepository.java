@@ -1,16 +1,16 @@
-package io.codelex.flightplanner.repository;
+package io.codelex.flightplanner.airport;
 
-import io.codelex.flightplanner.entitys.Airport;
+import io.codelex.flightplanner.airport.domain.Airport;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class AirportsRepository {
+public class AirportRepository {
     private final List<Airport> airports = new ArrayList<>();
 
-    public void save(Airport airport) {
+    public void add(Airport airport) {
         if (!airports.contains(airport)) {
             airports.add(airport);
         }

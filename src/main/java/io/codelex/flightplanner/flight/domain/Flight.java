@@ -1,6 +1,7 @@
-package io.codelex.flightplanner.entitys;
+package io.codelex.flightplanner.flight.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.codelex.flightplanner.airport.domain.Airport;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

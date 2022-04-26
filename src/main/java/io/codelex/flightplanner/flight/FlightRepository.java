@@ -1,7 +1,7 @@
-package io.codelex.flightplanner.repository;
+package io.codelex.flightplanner.flight;
 
-import io.codelex.flightplanner.entitys.Flight;
-import io.codelex.flightplanner.entitys.SearchFlightsRequest;
+import io.codelex.flightplanner.flight.domain.Flight;
+import io.codelex.flightplanner.flight.domain.SearchFlightRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class FlightsRepository {
+public class FlightRepository {
     private Long counter = 0L;
     private final List<Flight> flights = new ArrayList<>();
 
@@ -39,7 +39,7 @@ public class FlightsRepository {
                .ifPresent(flights::remove);
     }
 
-    public List<Flight> searchFlights(SearchFlightsRequest req) {
+    public List<Flight> searchFlights(SearchFlightRequest req) {
         return flights.stream()
                       .filter(flight -> flight.getFrom().getAirport().equals(req.getFrom())
                               && flight.getTo().getAirport().equals(req.getTo())
