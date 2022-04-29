@@ -1,6 +1,8 @@
-package io.codelex.flightplanner.airport;
+package io.codelex.flightplanner.service;
 
-import io.codelex.flightplanner.airport.domain.Airport;
+import io.codelex.flightplanner.model.Airport;
+import io.codelex.flightplanner.repository.AirportRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

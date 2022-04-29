@@ -1,7 +1,8 @@
 package io.codelex.flightplanner.controller;
 
-import io.codelex.flightplanner.airport.AirportService;
-import io.codelex.flightplanner.flight.FlightService;
+import io.codelex.flightplanner.service.AirportService;
+import io.codelex.flightplanner.service.FlightService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

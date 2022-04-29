@@ -1,4 +1,6 @@
-package io.codelex.flightplanner.flight.domain;
+package io.codelex.flightplanner.controller.api;
+
+import io.codelex.flightplanner.model.Flight;
 
 import lombok.Getter;
 

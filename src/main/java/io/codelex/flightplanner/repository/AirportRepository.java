@@ -1,6 +1,7 @@
-package io.codelex.flightplanner.airport;
+package io.codelex.flightplanner.repository;
 
-import io.codelex.flightplanner.airport.domain.Airport;
+import io.codelex.flightplanner.model.Airport;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

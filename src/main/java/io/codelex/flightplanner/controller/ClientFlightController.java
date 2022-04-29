@@ -1,9 +1,10 @@
 package io.codelex.flightplanner.controller;
 
-import io.codelex.flightplanner.flight.FlightService;
-import io.codelex.flightplanner.flight.domain.Flight;
-import io.codelex.flightplanner.flight.domain.SearchFlightRequest;
-import io.codelex.flightplanner.flight.domain.SearchFlightResponse;
+import io.codelex.flightplanner.service.FlightService;
+import io.codelex.flightplanner.model.Flight;
+import io.codelex.flightplanner.controller.api.SearchFlightRequest;
+import io.codelex.flightplanner.controller.api.SearchFlightResponse;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

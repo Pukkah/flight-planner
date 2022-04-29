@@ -1,4 +1,4 @@
-package io.codelex.flightplanner.flight.domain;
+package io.codelex.flightplanner.controller.api;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

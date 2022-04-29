@@ -1,11 +1,14 @@
-package io.codelex.flightplanner.flight;
+package io.codelex.flightplanner.repository;
 
-import io.codelex.flightplanner.flight.domain.Flight;
-import io.codelex.flightplanner.flight.domain.SearchFlightRequest;
+import io.codelex.flightplanner.model.Airport;
+import io.codelex.flightplanner.model.Flight;
+import io.codelex.flightplanner.controller.api.SearchFlightRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +30,19 @@ public class FlightRepository {
         return flight;
     }
 
-    public boolean flightExists(Flight flight) {
+    public boolean flightExists(
+            Airport from,
+            Airport to,
+            String carrier,
+            LocalDateTime departureTime,
+            LocalDateTime arrivalTime) {
         return flights.stream()
-                      .anyMatch(f -> f.equals(flight));
+                      .anyMatch(flight -> flight.getFrom().equals(from)
+                              && flight.getTo().equals(to)
+                              && flight.getCarrier().equals(carrier)
+                              && flight.getDepartureTime().equals(departureTime)
+                              && flight.getArrivalTime().equals(arrivalTime)
+                      );
     }
 
     public void deleteFlight(Long id) {

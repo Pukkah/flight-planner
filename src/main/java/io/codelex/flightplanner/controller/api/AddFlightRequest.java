@@ -1,9 +1,9 @@
-package io.codelex.flightplanner.flight.domain;
+package io.codelex.flightplanner.controller.api;
+
+import io.codelex.flightplanner.model.Airport;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.codelex.flightplanner.airport.domain.Airport;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -11,9 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
-public class Flight {
-    @EqualsAndHashCode.Exclude
-    private Long id;
+public class AddFlightRequest {
     @NotNull
     @Valid
     private Airport from;

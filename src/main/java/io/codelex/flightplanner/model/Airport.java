@@ -1,4 +1,4 @@
-package io.codelex.flightplanner.airport.domain;
+package io.codelex.flightplanner.model;
 
 import lombok.Data;
 import org.springframework.util.StringUtils;
