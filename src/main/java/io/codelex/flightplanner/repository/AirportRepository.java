@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public class AirportRepository {
-    private final List<Airport> airports = new ArrayList<>();
+    private volatile List<Airport> airports = new ArrayList<>();
 
-    public void add(Airport airport) {
+    public synchronized void add(Airport airport) {
         if (!airports.contains(airport)) {
             airports.add(airport);
         }

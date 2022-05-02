@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public class FlightRepository {
     private Long counter = 0L;
-    private final List<Flight> flights = new ArrayList<>();
+    private volatile List<Flight> flights = new ArrayList<>();
 
     public Flight getFlight(Long id) {
         return flights.stream()
@@ -24,7 +24,7 @@ public class FlightRepository {
                       .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Flight addFlight(Flight flight) {
+    public synchronized Flight addFlight(Flight flight) {
         flight.setId(++counter);
         flights.add(flight);
         return flight;
@@ -45,7 +45,7 @@ public class FlightRepository {
                       );
     }
 
-    public void deleteFlight(Long id) {
+    public synchronized void deleteFlight(Long id) {
         flights.stream()
                .filter(flight -> flight.getId().equals(id))
                .findAny()
