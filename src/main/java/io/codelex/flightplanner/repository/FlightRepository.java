@@ -4,6 +4,7 @@ import io.codelex.flightplanner.model.Airport;
 import io.codelex.flightplanner.model.Flight;
 import io.codelex.flightplanner.controller.api.SearchFlightRequest;
 
+import lombok.Synchronized;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,7 +16,7 @@ import java.util.List;
 @Repository
 public class FlightRepository {
     private Long counter = 0L;
-    private volatile List<Flight> flights = new ArrayList<>();
+    private final List<Flight> flights = new ArrayList<>();
 
     public Flight getFlight(Long id) {
         return flights.stream()
@@ -24,12 +25,14 @@ public class FlightRepository {
                       .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public synchronized Flight addFlight(Flight flight) {
+    @Synchronized
+    public Flight addFlight(Flight flight) {
         flight.setId(++counter);
         flights.add(flight);
         return flight;
     }
 
+    @Synchronized
     public boolean flightExists(
             Airport from,
             Airport to,
@@ -45,6 +48,7 @@ public class FlightRepository {
                       );
     }
 
+    @Synchronized
     public synchronized void deleteFlight(Long id) {
         flights.stream()
                .filter(flight -> flight.getId().equals(id))
@@ -52,6 +56,7 @@ public class FlightRepository {
                .ifPresent(flights::remove);
     }
 
+    @Synchronized
     public List<Flight> searchFlights(SearchFlightRequest req) {
         return flights.stream()
                       .filter(flight -> flight.getFrom().getAirport().equals(req.getFrom())

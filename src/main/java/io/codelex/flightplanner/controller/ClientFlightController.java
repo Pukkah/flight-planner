@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 @RestController
 @RequestMapping("/api/flights")
@@ -17,12 +18,12 @@ public class ClientFlightController {
     private final FlightService flightService;
 
     @GetMapping("/{id}")
-    public Flight getFlight(@PathVariable Long id) {
+    public Flight getFlight(@PathVariable @NotEmpty Long id) {
         return flightService.getFlight(id);
     }
 
     @PostMapping("/search")
-    public SearchFlightResponse searchFlights(@Valid @RequestBody SearchFlightRequest searchFlightRequest) {
+    public SearchFlightResponse searchFlights(@RequestBody @Valid SearchFlightRequest searchFlightRequest) {
         return flightService.searchFlights(searchFlightRequest);
     }
 

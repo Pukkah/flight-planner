@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class ClientAirportController {
     private final AirportService airportService;
 
     @GetMapping
-    public List<Airport> searchAirports(@RequestParam String search) {
+    public List<Airport> searchAirports(@RequestParam @NotEmpty String search) {
         return airportService.searchAirports(search);
     }
 
