@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 @RestController
 @RequestMapping("/admin-api/flights")
@@ -17,18 +18,18 @@ public class AdminFlightController {
     private final FlightService flightService;
 
     @GetMapping("/{id}")
-    public Flight getFlight(@PathVariable Long id) {
+    public Flight getFlight(@PathVariable @NotEmpty Long id) {
         return flightService.getFlight(id);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Flight addFlight(@RequestBody @Valid AddFlightRequest flightRequest) {
-        return flightService.addFlight(flightRequest);
+    public Flight addFlight(@RequestBody @Valid AddFlightRequest addFlightRequest) {
+        return flightService.addFlight(addFlightRequest);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteFlight(@PathVariable Long id) {
+    public void deleteFlight(@PathVariable @NotEmpty Long id) {
         flightService.deleteFlight(id);
     }
 
