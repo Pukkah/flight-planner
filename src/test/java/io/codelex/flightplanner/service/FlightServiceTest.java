@@ -27,8 +27,8 @@ class FlightServiceTest {
 
     @Test
     public void testAddFlight() {
-        Airport from = new Airport("RIX", "Latvia", "Riga");
-        Airport to = new Airport("LAX", "USA", "Los Angeles");
+        Airport from = new Airport("RIX", "Riga", "Latvia");
+        Airport to = new Airport("LAX", "Los Angeles", "USA");
         String carrier = "WizAir";
         LocalDateTime departureTime = LocalDateTime.now();
         LocalDateTime arrivalTime = departureTime.plusHours(9L);
@@ -47,12 +47,12 @@ class FlightServiceTest {
             Flight req = invocation.getArgument(0);
             Assertions.assertEquals(expectedFlight, req);
             return req.toBuilder().id(1L).build();
-        }).when(flightRepository).addFlight(Mockito.any());
+        }).when(flightRepository).save(Mockito.any());
 
         Flight flight = flightService.addFlight(addFlightRequest);
 
-        Mockito.verify(flightRepository, Mockito.times(1)).flightExists(from, to, carrier, departureTime, arrivalTime);
-        Mockito.verify(flightRepository, Mockito.times(1)).addFlight(Mockito.any(Flight.class));
+        Mockito.verify(flightRepository, Mockito.times(1)).exists(Mockito.any());
+        Mockito.verify(flightRepository, Mockito.times(1)).save(Mockito.any(Flight.class));
         Mockito.verify(airportService, Mockito.times(2)).add(Mockito.any(Airport.class));
         Assertions.assertEquals(1L, flight.getId());
 

@@ -17,6 +17,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authenticated()
             .and()
             .httpBasic();
+        // Enabling iframe for H2 Console
+        http.headers().frameOptions().sameOrigin();
     }
 
 }

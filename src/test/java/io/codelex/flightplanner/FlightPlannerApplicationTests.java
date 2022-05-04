@@ -19,8 +19,8 @@ class FlightPlannerApplicationTests {
 
     @Test
     void addFlightTest() {
-        Airport from = new Airport("RIX", "Latvia", "Riga");
-        Airport to = new Airport("LAX", "USA", "Los Angeles");
+        Airport from = new Airport("RIX", "Riga", "Latvia");
+        Airport to = new Airport("LAX", "Los Angeles", "USA");
         String carrier = "WizAir";
         LocalDateTime departureTime = LocalDateTime.now();
         LocalDateTime arrivalTime = departureTime.plusHours(9L);
