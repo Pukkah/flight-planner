@@ -35,24 +35,24 @@ class FlightServiceTest {
 
         AddFlightRequest addFlightRequest = new AddFlightRequest(from, to, carrier, departureTime, arrivalTime);
 
-        Flight mockFlight = Flight.builder()
-                                  .from(from)
-                                  .to(to)
-                                  .carrier(carrier)
-                                  .departureTime(departureTime)
-                                  .arrivalTime(arrivalTime)
-                                  .build();
+        Flight expectedFlight = Flight.builder()
+                                      .from(from)
+                                      .to(to)
+                                      .carrier(carrier)
+                                      .departureTime(departureTime)
+                                      .arrivalTime(arrivalTime)
+                                      .build();
 
         Mockito.doAnswer(invocation -> {
             Flight req = invocation.getArgument(0);
-            Assertions.assertEquals(mockFlight, req);
+            Assertions.assertEquals(expectedFlight, req);
             return req.toBuilder().id(1L).build();
         }).when(flightRepository).addFlight(Mockito.any());
 
         Flight flight = flightService.addFlight(addFlightRequest);
 
         Mockito.verify(flightRepository, Mockito.times(1)).flightExists(from, to, carrier, departureTime, arrivalTime);
-        Mockito.verify(flightRepository, Mockito.times(1)).addFlight(mockFlight);
+        Mockito.verify(flightRepository, Mockito.times(1)).addFlight(Mockito.any(Flight.class));
         Mockito.verify(airportService, Mockito.times(2)).add(Mockito.any(Airport.class));
         Assertions.assertEquals(1L, flight.getId());
 

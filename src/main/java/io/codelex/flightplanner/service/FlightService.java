@@ -8,6 +8,7 @@ import io.codelex.flightplanner.controller.api.SearchFlightRequest;
 import io.codelex.flightplanner.controller.api.SearchFlightResponse;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,6 +30,7 @@ public class FlightService {
         return new SearchFlightResponse(flightRepository.searchFlights(req));
     }
 
+    @Synchronized
     public Flight addFlight(AddFlightRequest flightRequest) {
         Airport airportFrom = flightRequest.getFrom();
         Airport airportTo = flightRequest.getTo();

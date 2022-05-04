@@ -29,6 +29,11 @@ class FlightPlannerApplicationTests {
 
         Flight flight = adminFlightController.addFlight(addFlightRequest);
         Assertions.assertNotNull(flight.getId());
+        Assertions.assertEquals(from, flight.getFrom());
+        Assertions.assertEquals(to, flight.getTo());
+        Assertions.assertEquals(carrier, flight.getCarrier());
+        Assertions.assertEquals(departureTime, flight.getDepartureTime());
+        Assertions.assertEquals(arrivalTime, flight.getArrivalTime());
     }
 
 }
