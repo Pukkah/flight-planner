@@ -1,73 +1,23 @@
 package io.codelex.flightplanner.repository;
 
-import io.codelex.flightplanner.model.Airport;
 import io.codelex.flightplanner.model.Flight;
-import io.codelex.flightplanner.controller.api.SearchFlightRequest;
-
-import lombok.Synchronized;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class FlightRepository {
-    private Long counter = 0L;
-    private final List<Flight> flights = new ArrayList<>();
+public interface FlightRepository extends JpaRepository<Flight, Long> {
 
-    public Flight getFlight(Long id) {
-        return flights.stream()
-                      .filter(flight -> flight.getId().equals(id))
-                      .findAny()
-                      .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
-
-    @Synchronized
-    public Flight addFlight(Flight flight) {
-        flight.setId(++counter);
-        flights.add(flight);
-        return flight;
-    }
-
-    @Synchronized
-    public boolean flightExists(
-            Airport from,
-            Airport to,
-            String carrier,
-            LocalDateTime departureTime,
-            LocalDateTime arrivalTime) {
-        return flights.stream()
-                      .anyMatch(flight -> flight.getFrom().equals(from)
-                              && flight.getTo().equals(to)
-                              && flight.getCarrier().equals(carrier)
-                              && flight.getDepartureTime().equals(departureTime)
-                              && flight.getArrivalTime().equals(arrivalTime)
-                      );
-    }
-
-    @Synchronized
-    public synchronized void deleteFlight(Long id) {
-        flights.stream()
-               .filter(flight -> flight.getId().equals(id))
-               .findAny()
-               .ifPresent(flights::remove);
-    }
-
-    @Synchronized
-    public List<Flight> searchFlights(SearchFlightRequest req) {
-        return flights.stream()
-                      .filter(flight -> flight.getFrom().getAirport().equals(req.getFrom())
-                              && flight.getTo().getAirport().equals(req.getTo())
-                              && flight.getDepartureTime().toLocalDate().equals(req.getDepartureDate())
-                      ).toList();
-    }
-
-    @Synchronized
-    public void clear() {
-        flights.clear();
-    }
+    @Query("SELECT f FROM Flight f WHERE f.from.airport = :from AND f.to.airport = :to AND f.departureTime >= :date_start AND f.departureTime < :date_end")
+    List<Flight> searchFlights(
+            @Param("from") String from,
+            @Param("to") String to,
+            @Param("date_start") LocalDateTime dateStart,
+            @Param("date_end") LocalDateTime dateEnd
+    );
 
 }
