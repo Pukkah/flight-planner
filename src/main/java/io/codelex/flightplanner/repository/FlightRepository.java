@@ -65,6 +65,7 @@ public class FlightRepository {
                       ).toList();
     }
 
+    @Synchronized
     public void clear() {
         flights.clear();
     }

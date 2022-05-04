@@ -2,6 +2,7 @@ package io.codelex.flightplanner.repository;
 
 import io.codelex.flightplanner.model.Airport;
 
+import lombok.Synchronized;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,9 +10,10 @@ import java.util.List;
 
 @Repository
 public class AirportRepository {
-    private volatile List<Airport> airports = new ArrayList<>();
+    private final List<Airport> airports = new ArrayList<>();
 
-    public synchronized void add(Airport airport) {
+    @Synchronized
+    public void add(Airport airport) {
         if (!airports.contains(airport)) {
             airports.add(airport);
         }
@@ -25,6 +27,7 @@ public class AirportRepository {
                        .toList();
     }
 
+    @Synchronized
     public void clear() {
         airports.clear();
     }
