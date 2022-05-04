@@ -10,12 +10,14 @@ import io.codelex.flightplanner.controller.api.SearchFlightResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,13 +30,14 @@ public class FlightService {
                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public SearchFlightResponse searchFlights(SearchFlightRequest req) {
+    public SearchFlightResponse searchFlights(SearchFlightRequest req, Integer page) {
         if (req.getFrom().equals(req.getTo())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         LocalDateTime dateStart = req.getDepartureDate().atStartOfDay();
         LocalDateTime dateEnd = dateStart.plusDays(1L);
-        List<Flight> result = flightRepository.searchFlights(req.getFrom(), req.getTo(), dateStart, dateEnd);
+        Pageable pageRequest = PageRequest.of(page, 10);
+        Page<Flight> result = flightRepository.searchFlights(req.getFrom(), req.getTo(), dateStart, dateEnd, pageRequest);
         return new SearchFlightResponse(result);
     }
 

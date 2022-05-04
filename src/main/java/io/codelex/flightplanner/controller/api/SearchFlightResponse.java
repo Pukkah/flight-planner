@@ -2,19 +2,25 @@ package io.codelex.flightplanner.controller.api;
 
 import io.codelex.flightplanner.model.Flight;
 
-import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-@Getter
+@RequiredArgsConstructor
 public class SearchFlightResponse {
-    private final List<Flight> items;
-    private final Integer page = 0;
-    private final Integer totalItems;
+    private final Page<Flight> items;
 
-    public SearchFlightResponse(List<Flight> items) {
-        this.items = items;
-        totalItems = items.size();
+    public List<Flight> getItems() {
+        return items.getContent();
+    }
+
+    public Integer getPage() {
+        return items.getNumber();
+    }
+
+    public Long getTotalItems() {
+        return items.getTotalElements();
     }
 
 }

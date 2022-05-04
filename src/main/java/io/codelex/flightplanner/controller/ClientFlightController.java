@@ -23,8 +23,9 @@ public class ClientFlightController {
     }
 
     @PostMapping("/search")
-    public SearchFlightResponse searchFlights(@RequestBody @Valid SearchFlightRequest searchFlightRequest) {
-        return flightService.searchFlights(searchFlightRequest);
+    public SearchFlightResponse searchFlights(@RequestBody @Valid SearchFlightRequest searchFlightRequest,
+                                              @RequestParam(defaultValue = "0") Integer page) {
+        return flightService.searchFlights(searchFlightRequest, page);
     }
 
 }
