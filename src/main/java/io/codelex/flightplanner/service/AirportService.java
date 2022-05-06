@@ -15,8 +15,9 @@ import java.util.List;
 public class AirportService {
     private final AirportRepository airportRepository;
 
-    public void add(Airport airport) {
-        airportRepository.save(airport);
+    public Airport getOrCreate(Airport airport) {
+        return airportRepository.findById(airport.getAirport())
+                                .orElseGet(() -> airportRepository.save(airport));
     }
 
     public List<Airport> searchAirports(String search) {

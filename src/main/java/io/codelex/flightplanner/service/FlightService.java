@@ -51,14 +51,12 @@ public class FlightService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         Flight flight = Flight.builder()
-                              .from(airportFrom)
-                              .to(airportTo)
+                              .from(airportService.getOrCreate(airportFrom))
+                              .to(airportService.getOrCreate(airportTo))
                               .carrier(flightRequest.getCarrier())
                               .departureTime(flightRequest.getDepartureTime())
                               .arrivalTime(flightRequest.getArrivalTime())
                               .build();
-        airportService.add(airportFrom);
-        airportService.add(airportTo);
         try {
             return flightRepository.save(flight);
         } catch (Exception ignored) {
