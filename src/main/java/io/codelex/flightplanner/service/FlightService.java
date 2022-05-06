@@ -5,7 +5,7 @@ import io.codelex.flightplanner.model.Airport;
 import io.codelex.flightplanner.repository.FlightRepository;
 import io.codelex.flightplanner.model.Flight;
 import io.codelex.flightplanner.controller.api.SearchFlightRequest;
-import io.codelex.flightplanner.controller.api.SearchFlightResponse;
+import io.codelex.flightplanner.controller.api.SearchFlightPageResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -30,7 +30,7 @@ public class FlightService {
                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public SearchFlightResponse searchFlights(SearchFlightRequest req, Integer page) {
+    public SearchFlightPageResponse searchFlights(SearchFlightRequest req, Integer page) {
         if (req.getFrom().equals(req.getTo())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
@@ -38,7 +38,7 @@ public class FlightService {
         LocalDateTime dateEnd = dateStart.plusDays(1L);
         Pageable pageRequest = PageRequest.of(page, 10);
         Page<Flight> result = flightRepository.searchFlights(req.getFrom(), req.getTo(), dateStart, dateEnd, pageRequest);
-        return new SearchFlightResponse(result);
+        return new SearchFlightPageResponse(result);
     }
 
     @Synchronized
