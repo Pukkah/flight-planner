@@ -9,7 +9,6 @@ import io.codelex.flightplanner.controller.api.SearchFlightPageResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -58,12 +57,13 @@ public class FlightService {
                               .departureTime(flightRequest.getDepartureTime())
                               .arrivalTime(flightRequest.getArrivalTime())
                               .build();
-        if (flightRepository.exists(Example.of(flight))) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
-        }
         airportService.add(airportFrom);
         airportService.add(airportTo);
-        return flightRepository.save(flight);
+        try {
+            return flightRepository.save(flight);
+        } catch (Exception ignored) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
     }
 
     private boolean isArrivalAndDepartureTimeValid(AddFlightRequest flightRequest) {

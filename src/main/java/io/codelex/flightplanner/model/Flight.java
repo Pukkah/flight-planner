@@ -10,7 +10,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "flights")
+@Table(name = "flights", uniqueConstraints = { @UniqueConstraint(name = "flights_should_be_unique",
+        columnNames = { "airport_from", "airport_to", "carrier", "departureTime", "arrivalTime" }) })
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -20,10 +21,12 @@ public class Flight {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "airport_from")
+    @JoinColumn(foreignKey = @ForeignKey(name = "airport_from_fk_airport"),
+            name = "airport_from", referencedColumnName = "airport")
     private Airport from;
     @ManyToOne
-    @JoinColumn(name = "airport_to")
+    @JoinColumn(foreignKey = @ForeignKey(name = "airport_to_fk_airport"),
+            name = "airport_to", referencedColumnName = "airport")
     private Airport to;
     private String carrier;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")

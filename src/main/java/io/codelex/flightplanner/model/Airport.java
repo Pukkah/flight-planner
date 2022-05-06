@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "airports")
@@ -19,10 +20,13 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 public class Airport {
     @Id
+    @NotNull
     @NotEmpty
     private String airport;
+    @NotNull
     @NotEmpty
     private String city;
+    @NotNull
     @NotEmpty
     private String country;
 
