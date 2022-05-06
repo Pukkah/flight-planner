@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class SearchFlightResponse {
+public class SearchFlightPageResponse {
     private final Page<Flight> items;
 
     public List<Flight> getItems() {

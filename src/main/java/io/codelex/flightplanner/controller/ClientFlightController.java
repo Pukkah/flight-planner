@@ -3,7 +3,7 @@ package io.codelex.flightplanner.controller;
 import io.codelex.flightplanner.service.FlightService;
 import io.codelex.flightplanner.model.Flight;
 import io.codelex.flightplanner.controller.api.SearchFlightRequest;
-import io.codelex.flightplanner.controller.api.SearchFlightResponse;
+import io.codelex.flightplanner.controller.api.SearchFlightPageResponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +23,8 @@ public class ClientFlightController {
     }
 
     @PostMapping("/search")
-    public SearchFlightResponse searchFlights(@RequestBody @Valid SearchFlightRequest searchFlightRequest,
-                                              @RequestParam(defaultValue = "0") Integer page) {
+    public SearchFlightPageResponse searchFlights(@RequestBody @Valid SearchFlightRequest searchFlightRequest,
+                                                  @RequestParam(defaultValue = "0") Integer page) {
         return flightService.searchFlights(searchFlightRequest, page);
     }
 

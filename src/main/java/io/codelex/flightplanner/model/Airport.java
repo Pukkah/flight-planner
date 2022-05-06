@@ -1,17 +1,15 @@
 package io.codelex.flightplanner.model;
 
+import io.codelex.flightplanner.utils.StringFormatUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "airports")
@@ -29,22 +27,15 @@ public class Airport {
     private String country;
 
     public void setAirport(String airport) {
-        this.airport = airport.toUpperCase().trim();
+        this.airport = StringFormatUtils.toUpperCase(airport);
     }
 
     public void setCity(String city) {
-        this.city = capitalize(city);
+        this.city = StringFormatUtils.capitalize(city);
     }
 
     public void setCountry(String country) {
-        this.country = capitalize(country);
-    }
-
-    private String capitalize(String s) {
-        return Arrays.stream(s.trim().split(" "))
-                     .map(String::toLowerCase)
-                     .map(StringUtils::capitalize)
-                     .collect(Collectors.joining(" "));
+        this.country = StringFormatUtils.capitalize(country);
     }
 
 }
