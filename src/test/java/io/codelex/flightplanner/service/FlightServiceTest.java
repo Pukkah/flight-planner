@@ -53,7 +53,7 @@ class FlightServiceTest {
 
         Mockito.verify(flightRepository, Mockito.times(1)).exists(Mockito.any());
         Mockito.verify(flightRepository, Mockito.times(1)).save(Mockito.any(Flight.class));
-        Mockito.verify(airportService, Mockito.times(2)).add(Mockito.any(Airport.class));
+        Mockito.verify(airportService, Mockito.times(2)).getOrCreate(Mockito.any(Airport.class));
         Assertions.assertEquals(1L, flight.getId());
 
     }

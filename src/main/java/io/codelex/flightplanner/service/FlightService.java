@@ -8,12 +8,12 @@ import io.codelex.flightplanner.controller.api.SearchFlightRequest;
 import io.codelex.flightplanner.controller.api.SearchFlightPageResponse;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Synchronized;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -24,11 +24,13 @@ public class FlightService {
     private final FlightRepository flightRepository;
     private final AirportService airportService;
 
+    @Transactional(readOnly = true)
     public Flight getFlight(Long id) {
         return flightRepository.findById(id)
                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @Transactional(readOnly = true)
     public SearchFlightPageResponse searchFlights(SearchFlightRequest req, Integer page) {
         if (req.getFrom().equals(req.getTo())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -40,7 +42,7 @@ public class FlightService {
         return new SearchFlightPageResponse(result);
     }
 
-    @Synchronized
+    @Transactional
     public Flight addFlight(AddFlightRequest flightRequest) {
         Airport airportFrom = flightRequest.getFrom();
         Airport airportTo = flightRequest.getTo();
@@ -57,25 +59,23 @@ public class FlightService {
                               .departureTime(flightRequest.getDepartureTime())
                               .arrivalTime(flightRequest.getArrivalTime())
                               .build();
-        try {
-            return flightRepository.save(flight);
-        } catch (Exception ignored) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
-        }
+        return flightRepository.save(flight);
     }
 
-    private boolean isArrivalAndDepartureTimeValid(AddFlightRequest flightRequest) {
-        return flightRequest.getArrivalTime().isAfter(flightRequest.getDepartureTime());
-    }
-
+    @Transactional
     public void deleteFlight(Long id) {
         if (flightRepository.existsById(id)) {
             flightRepository.deleteById(id);
         }
     }
 
+    @Transactional
     public void deleteAllFlights() {
         flightRepository.deleteAll();
+    }
+
+    private boolean isArrivalAndDepartureTimeValid(AddFlightRequest flightRequest) {
+        return flightRequest.getArrivalTime().isAfter(flightRequest.getDepartureTime());
     }
 
 }

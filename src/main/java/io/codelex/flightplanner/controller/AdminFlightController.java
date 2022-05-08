@@ -5,8 +5,10 @@ import io.codelex.flightplanner.service.FlightService;
 import io.codelex.flightplanner.model.Flight;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -25,7 +27,11 @@ public class AdminFlightController {
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Flight addFlight(@RequestBody @Valid AddFlightRequest addFlightRequest) {
-        return flightService.addFlight(addFlightRequest);
+        try {
+            return flightService.addFlight(addFlightRequest);
+        } catch (DataIntegrityViolationException ignored) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
     }
 
     @DeleteMapping("/{id}")

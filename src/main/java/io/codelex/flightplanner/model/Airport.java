@@ -14,9 +14,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "airports")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
 public class Airport {
     @Id
