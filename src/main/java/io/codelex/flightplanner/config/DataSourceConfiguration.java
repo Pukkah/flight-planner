@@ -1,4 +1,4 @@
-package io.codelex.flightplanner.configuration;
+package io.codelex.flightplanner.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.jdbc.DataSourceBuilder;
