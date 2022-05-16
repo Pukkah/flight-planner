@@ -31,13 +31,13 @@ public class FlightService {
     }
 
     @Transactional(readOnly = true)
-    public SearchFlightPageResponse searchFlights(SearchFlightRequest req, Integer page) {
+    public SearchFlightPageResponse searchFlights(SearchFlightRequest req) {
         if (req.getFrom().equals(req.getTo())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         LocalDateTime dateStart = req.getDepartureDate().atStartOfDay();
         LocalDateTime dateEnd = dateStart.plusDays(1L);
-        Pageable pageRequest = PageRequest.of(page, 10);
+        Pageable pageRequest = PageRequest.of(req.getPage(), req.getLimit());
         Page<Flight> result = flightRepository.searchFlights(req.getFrom(), req.getTo(), dateStart, dateEnd, pageRequest);
         return new SearchFlightPageResponse(result);
     }
