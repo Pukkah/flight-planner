@@ -30,8 +30,11 @@ public class ClientFlightController {
 
     @PostMapping("/search")
     public SearchFlightPageResponse searchFlights(@RequestBody @Valid SearchFlightRequest searchFlightRequest,
-                                                  @RequestParam(defaultValue = "0") Integer page) {
-        return flightService.searchFlights(searchFlightRequest, page);
+                                                  @RequestParam(defaultValue = "0") Integer page,
+                                                  @RequestParam(defaultValue = "10") Integer limit) {
+        searchFlightRequest.setPage(page);
+        searchFlightRequest.setLimit(limit);
+        return flightService.searchFlights(searchFlightRequest);
     }
 
 }

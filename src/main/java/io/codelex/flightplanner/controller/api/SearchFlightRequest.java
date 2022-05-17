@@ -16,5 +16,7 @@ public class SearchFlightRequest {
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate departureDate;
+    private Integer page;
+    private Integer limit;
 
 }

@@ -10,7 +10,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,14 +26,14 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 public class Flight {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "flight_id_sequence")
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(foreignKey = @ForeignKey(name = "airport_from_fk_airport"),
+    @JoinColumn(foreignKey = @ForeignKey(name = "flight_airport_from_fkey"),
             name = "airport_from", referencedColumnName = "airport")
     private Airport from;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(foreignKey = @ForeignKey(name = "airport_to_fk_airport"),
+    @JoinColumn(foreignKey = @ForeignKey(name = "flight_airport_to_fkey"),
             name = "airport_to", referencedColumnName = "airport")
     private Airport to;
     private String carrier;
